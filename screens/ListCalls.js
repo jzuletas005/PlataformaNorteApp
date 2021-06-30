@@ -14,6 +14,7 @@ function ListCalls ({route, navigation}){
 
     //get Data
     const data = route.params.id;
+    const uid = route.params.uid;
     //console.log(data[0]);
 
     //refresh
@@ -54,7 +55,7 @@ function ListCalls ({route, navigation}){
     const  renderCalls = callsU.map( (a, index) => (
         <Block key={index} style={{flexDirection: 'column'}}>
             <Block style={styles.listCalls}>
-                <TouchableOpacity key={index} onPress={() => navigation.navigate('DetailsCalls' , {item: a})}>
+                <TouchableOpacity key={index} onPress={() => navigation.navigate('DetailsCalls' , {item: a, uid: uid})}>
                     <Text key={index} style={styles.textCalls}>{a.calltitle}</Text>
                     <Text>Ver más</Text>
                 </TouchableOpacity>

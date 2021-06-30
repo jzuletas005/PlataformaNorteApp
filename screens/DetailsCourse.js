@@ -61,7 +61,7 @@ function DetailsCourse ({route, navigation}) {
         return new Promise((resolve) =>{
             let arr = [];
             for (let index = 0; index < questions.length; index++) {
-                arr.push("undefined")
+                arr.push("")
             }
             setCheck(arr);
             resolve();
@@ -98,6 +98,7 @@ function DetailsCourse ({route, navigation}) {
        setCheck(arr);
     }
 
+    //console.log(check);
     const goResult = async() =>{
         //console.log(questions.length);
         setIsLoading(true);
@@ -136,13 +137,15 @@ function DetailsCourse ({route, navigation}) {
                 resolve(-1); 
             }else{
                 for (let index = 0; index < check.length; index++) {
-                    const element = check[index].toLowerCase();
 
-                    answers.map((a, ondex) => {
-                        if(a.Pregunta == (index +1) && a.Respuesta == element){
-                            count ++;
-                        }
-                    })
+                    if(check[index] != undefined){
+                        const element = check[index].toLowerCase();
+                        answers.map((a, ondex) => {
+                            if(a.Pregunta == (index +1) && a.Respuesta == element){
+                                count ++;
+                            }
+                        })
+                    }
                     
                 }
                 resolve(count);

@@ -14,7 +14,8 @@ function ListFiles ({route, navigation}) {
 
     //recive data
     const data = route.params.id[0];
-    //console.log(data);
+    const project = route.params.project[0];
+    //console.log(data, project);
 
     //variables
     const[newsList, setNewsList] = useState([]);
@@ -26,7 +27,7 @@ function ListFiles ({route, navigation}) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() =>{
-        const findfiles = FQueries.getAllFilesE(data).onSnapshot(getCollection);
+        const findfiles = FQueries.getAllFilesE(data, project).onSnapshot(getCollection);
         return () => findfiles();
     }, []);
 

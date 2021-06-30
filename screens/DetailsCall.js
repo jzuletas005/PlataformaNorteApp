@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, TouchableOpacity, Image, ScrollView, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, Linking, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Block, Text, theme, Button } from 'galio-framework';
 import { Divider } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,13 +13,18 @@ import FQueries from '../database/querys';
 function DetailsCalls ({navigation, route}) {
     //Get data
     const data = route.params.item;
-    //console.log(data.idDocCall);
+    const uid = route.params.uid;
+    //console.log(uid);
 
     //isLoading
     const [isLoading, setIsLoading] = useState(true);
 
     //variable
     const [call, setCall] = useState([]);
+    //user
+    const [user, setUser] = useState([]);
+    //doc
+    const [doc, setDoc] = useState("");
 
 
     //useEffect
@@ -27,6 +32,32 @@ function DetailsCalls ({navigation, route}) {
         const find = FQueries.getCalls(data.idDocCall).onSnapshot(getCall);
         return () => find();
     }, [])
+
+    useEffect(() => {
+        const user = FQueries.getUser(uid).onSnapshot(getUser);
+        return () => user();
+    }, [])
+    /* En revisión
+    useEffect(() => {
+        getDocUser();
+    }, [])
+
+    const getDocUser = () => {
+        FQueries.getProfileUserURL(uid).then((doc) => {
+            setDoc(doc);
+        }).catch(err => {
+            console.log("Error: " +err);
+        });
+
+    }
+    */
+    const getUser = (items) => {
+        let arr = [];
+        arr.push(
+            items.data().name
+        )
+        setUser(arr);
+    }
 
     const getCall = (items) => {
         let arr = [];
@@ -69,7 +100,9 @@ function DetailsCalls ({navigation, route}) {
                         <Block fluid>
                             <Text style={styles.textbody}>{call[1]}</Text>
                         </Block>
-                        <Button style={styles.button}>
+                        <Button style={styles.button} onPress={() => Linking.openURL("mailto:support@example.com?subject=Postulacion%20a%20" +call[0]+  
+                            "&body=Hola%20soy%20"  +user[0] +"%20y%20estoy%20postulando%20para%20el%20trabajo.") }
+                        >
                             Postular
                         </Button>
                 </Block>

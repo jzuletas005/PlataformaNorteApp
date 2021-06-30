@@ -232,7 +232,7 @@ export default function Home ({navigation, route}) {
                     </TouchableOpacity>
                 </Block>
                 <Block row>
-                    <TouchableOpacity style={styles.viewButton} onPress={() => navigation.navigate('Convocatorias', {screen: 'Convocatorias', params: {id: idEnterprise}})}>
+                    <TouchableOpacity style={styles.viewButton} onPress={() => navigation.navigate('Convocatorias', {screen: 'Convocatorias', params: {id: idEnterprise, uid: uid}})}>
                         <LinearGradient
                             colors={[nowTheme.COLORPLATNRT.CALL, nowTheme.COLORPLATNRT.BUTTON_CALL]}
                             start={[0.0, 0.0]}
@@ -247,7 +247,7 @@ export default function Home ({navigation, route}) {
                             </Block>
                         </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.viewButton} onPress={() => navigation.navigate('Archivos', {screen: 'Archivos', params: {id: idEnterprise}})}>
+                    <TouchableOpacity style={styles.viewButton} onPress={() => navigation.navigate('Archivos', {screen: 'Archivos', params: {id: idEnterprise, project: idProject}})}>
                         <LinearGradient
                             colors={[nowTheme.COLORPLATNRT.INFOTECN, nowTheme.COLORPLATNRT.BUTTON_INFOTECN]}
                             start={[0.0, 0.0]}

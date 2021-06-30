@@ -45,8 +45,8 @@ const findWorker = (params) => {
 };
 
 //Files Enterprise
-const getAllFilesE = (id) =>{
-    return dbFilesE.where("idDocEnterprise", "==", id);
+const getAllFilesE = (id, project) =>{
+    return dbFilesE.where("idDocEnterprise", "==", id).where("idDocProject", "==", project);
 };
 
 //Files
