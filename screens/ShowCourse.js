@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { StyleSheet, Dimensions, TouchableOpacity, Image, ScrollView, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, Image, ScrollView, View, ActivityIndicator, Platform } from 'react-native';
 import { Block, Text, theme, Button } from 'galio-framework';
-import { Divider } from 'react-native-elements';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import PDFReader from 'rn-pdf-reader-js';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
@@ -18,6 +18,7 @@ function ShowCourse ({route, navigation}) {
     const [isLoading, setIsLoading] = useState(true);
     const [file, setFile] = useState("");
     const [type, setType] = useState("");
+    const [fileName, setFileName] = useState("");
 
     //getting data
     const data = route.params.item;
@@ -33,12 +34,11 @@ function ShowCourse ({route, navigation}) {
 
 
     const gettinData = () =>{
-        setFile(data.fileB64);
+        setFile(data.fileURL);
         setType(data.filetype);
+        setFileName(data.fileName);
         setIsLoading(false);
     }
-
-    console.log(type.toLowerCase());
 
     if(isLoading){
         return(
@@ -50,35 +50,26 @@ function ShowCourse ({route, navigation}) {
     
     if(type.toLowerCase() === 'pdf'){
         return(
-            <PDFReader source={{base64: file}}/>
+            <PDFReader source={{uri: file}}/>
         )
-    }else{
-        if(type.toLowerCase() === 'jpg' || type.toLowerCase() === 'png' ){
-            return(
-                <Block flex>
-                    <Image style={styles.image} source={{uri: file}}/>
-                </Block>
-                //Corregir dimensión
-            )
-        }else{
-            if(type.toLowerCase() === 'mp4'){
-                <Block style={styles.containerVideo}>
-                    <Video 
-                        ref={video}
-                        style={styles.video}
-                        source={{
-                            uri: ""
-                        }}
-                        useNativeControls
-                        resizeMode= "contain"
-                        onFullscreenUpdate
-                        onReadyForDisplay
-                        isLooping
-                        onPlaybackStatusUpdate={status => setStatus(() => status)}
-                    />
-                </Block>
-            }
-        }
+    }
+
+    if(type.toLowerCase() === 'mp4'){
+        return(
+            <Block style={styles.containerVideo}>
+                <Video 
+                    ref={video}
+                    style={styles.video}
+                    source={{
+                        uri: file
+                    }}
+                    useNativeControls
+                    resizeMode= "contain"
+                    isLoopin
+                    onPlaybackStatusUpdate={status => setStatus(() => status)}
+                />
+            </Block>
+        )
     }
 }
 

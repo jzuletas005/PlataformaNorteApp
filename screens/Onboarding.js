@@ -16,7 +16,7 @@ function Onboarding ({navigation}) {
 
     useEffect(() => {
         NavigateToAuthOrHomeScreen()
-    }, [])
+    })
 
     function NavigateToAuthOrHomeScreen(){
         setTimeout(function (){

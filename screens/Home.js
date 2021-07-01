@@ -1,8 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
-import { TouchableOpacity, View, StyleSheet, StatusBar, Dimensions, Platform, ActivityIndicator, Modal, Alert } from 'react-native';
+import { TouchableOpacity, View, StyleSheet, StatusBar, Dimensions, Platform, ActivityIndicator, Modal, Alert, BackHandler } from 'react-native';
 import { Block, Button, Text, theme, Card,  } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
-import { RadioButton } from 'react-native-paper';
 import { CheckBox } from 'react-native-elements';
 
 import { Icon} from '../components/';
@@ -12,7 +11,6 @@ import { nowTheme } from '../constants/';
 import { HeaderHeight, StatusHeight } from '../constants/utils';
 import FQueries from '../database/querys';
 
-
 export default function Home ({navigation, route}) {
 
     //isLoading
@@ -21,6 +19,9 @@ export default function Home ({navigation, route}) {
     const [showModal, setShowModal] = useState(false);
     const [isSelect, setIsSelect] = useState(false);
     const [check, setCheck] = useState(-1)
+
+    //screen 
+    const screen = 1;
 
 
     const [data, setData] = useState([]);
@@ -48,6 +49,17 @@ export default function Home ({navigation, route}) {
         const find = FQueries.findWorker(uid).onSnapshot(getWorker);
         return () => find();
     }, [])
+
+    //prevent back button 
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress)
+        return () => BackHandler.removeEventListener('hardwareBackPress', handleBackPress)
+    }, [])
+
+    const handleBackPress = () => {
+        navigation.navigate("Inicio", {uid: uid});
+        return true;
+    }
 
     const getUser = (items) => {
         let us = [];
@@ -134,8 +146,8 @@ export default function Home ({navigation, route}) {
 
     const Logout = async() => {
         try{
-            FQueries.session().signOut();
-            navigation.navigate('Login');
+            //FQueries.session().signOut();
+            navigation.reset({ index: 0, routes: [{name: 'Login'}]});
         }catch(e){
             console.log(e);
         }
@@ -151,7 +163,7 @@ export default function Home ({navigation, route}) {
                     style: "destructive"
                 },
                 {
-                    text: "No", onPress: () => navigation.navigate("Home", {uid: uid}),
+                    text: "No", onPress: () => navigation.navigate("Inicio", {uid: uid}),
                     style: "cancel"
                 }
             ]

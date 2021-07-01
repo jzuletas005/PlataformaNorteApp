@@ -7,7 +7,6 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 
 
 //utils
-import {getFile} from '../utils/FileManagement';
 import FQueries from '../database/querys';
 import { nowTheme } from '../constants';
 
@@ -76,17 +75,6 @@ function DetailsFile ({navigation, route}){
         )
     }
     //Imagen solo pdfs
-    /*
-    if(f[2].toLowerCase() === 'jpg' || f[2].toLowerCase() === 'png' ){
-        return(
-            <Block flex>
-                <Image style={styles.image} source={{uri: f[1]}}/>
-            </Block>
-            //Corregir dimensión
-            //<Image style={styles.image} source={{uri: f[1]}}/>
-            //<ImageView images={{uri: f[1]}} imageIndex={0} visible={visible} presentationStyle={'fullScreen'} onRequestClose={() => setVisible(false)}/>
-        )
-    }*/
     if(f[2].toLowerCase() === 'mp4'){
         return(
             <Block style={styles.containerVideo}>
